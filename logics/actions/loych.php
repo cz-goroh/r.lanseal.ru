@@ -21,7 +21,14 @@ if(isset($_POST['acp'])):
     $statser= Dbq::AtomSel('status', 'rolik', 'id', $id_rol);
     $statarr= unserialize($statser);
     $statarr['app'][]=$st_id;
-    unset($statarr['red']);
+    if(!empty($statarr['rej'])){
+    $rejkey= array_keys($statarr['rej'], $st_id)[0];
+    unset($statarr['rej'][$rejkey]);
+    }
+    if(!empty($statarr['upl'])){
+    unset($statarr['upl']);}
+    if(!empty($statarr['red'])){
+    unset($statarr['red']);}
     $statser= serialize($statarr);
     $acq="UPDATE rolik SET `status`='$statser' WHERE `id`=$id_rol";
     Dbq::InsDb($acq);
@@ -37,6 +44,7 @@ if(isset($_POST['rj'])):
     $statser= Dbq::AtomSel('status', 'rolik', 'id', $rj);
     $statarr= unserialize($statser);
     $statarr['rej'][]=$st_id;
+    unset($statarr['upl']);
     $statser= serialize($statarr);
     $descser= Dbq::AtomSel('descr', 'rolik', 'id', $rj);
     $descrar= unserialize($descser);
