@@ -14,7 +14,7 @@ include_once ROOT.'/views/header.php';
             <a href="/" 
                style="font-size: 2em;  text-decoration: none;
                color: #FB3943; background-color:  #17222E">
-                R.LANSEAL</a>
+                NRS-MEDIA</a>
         <p class="a_style">
             <h4 style="  text-decoration: none;
                color: #FB3943; background-color:  #17222E">Радиостанция: <?php  echo $rkar['fname'];?></h4>
@@ -28,6 +28,7 @@ include_once ROOT.'/views/header.php';
         <p class="a_style"  id="a2"><br> Юристы</p>
         <p class="a_style"  id="a5" ><br>Пики слушания</p>
         <p class="a_style"  id="a6"><br> Цены</p>
+        <p class="a_style"  id="a8"><br> Ролики</p>
         <p class="a_style"  id="a3"><br> 
             <a href="/cabinet/r_mancab/3" style="color: inherit;"  > Медиаплан</a></p>
         <p class="a_style"  id="a6"><a style="color: inherit;" class="" href="/signup/logout">Выйти</a></p>
@@ -36,6 +37,125 @@ include_once ROOT.'/views/header.php';
     <div id="main-div" class="content"></div>
 </div>
 <div id="content" >
+    <div  id="d-8" class="hide-div">
+        <h4>Ролики</h4>
+<?php
+//print_r($us_inf);
+//include_once ROOT.'/views/header.php';
+//echo User::wiyn()['namestr']; ?>
+<form action="/cabinet/rmanch" method="post">
+<?php
+$st_id=$id;
+if(!empty($rarr)):
+foreach ($rarr as $infrk=>$infr):
+    $rolstats=$infr['status'];
+    $rolstat_arr= unserialize($rolstats);//массив статусов
+    if(array_key_exists('rej',$rolstat_arr)){
+        $rejser=$infr['descr'];
+        $rejarr= unserialize($rejser);//массив комментариев о доработка
+    }
+//    print_r($rolstat_arr);
+    
+    if(array_key_exists('upl',$rolstat_arr)):$rol_color='yellow';$rolst='Новый';
+    endif;
+    
+    if(array_key_exists('rej',$rolstat_arr) && in_array($st_id,$rolstat_arr['rej'])):$rol_color='red';   $rolst='Отклонён';
+    endif;
+    if(array_key_exists('red',$rolstat_arr) &&($rolstat_arr['red']===$st_id)):
+        $rol_color='blue';  $rolst='Отредактирован';endif;
+    if(array_key_exists('app',$rolstat_arr) && (in_array($st_id, $rolstat_arr['app']))):
+        $rol_color='green'; $rolst='Одобрен';       endif;
+    ?>
+    <div class="st-list">
+    <!--===================================ПЛЕЕР=============================-->
+    <mark id="color<?php echo $infr['id']; ?>" class="central"
+          style="background-color: <?php echo $rol_color; ?>">
+              <?php echo $infr['id']; ?> </mark>
+    <?php echo $infr['name']; ?>
+    Длительность <?php echo $infr['dlit']; ?> сек
+    
+<!--=========================================================================-->
+<span id="res" class="central"></span>
+<?php if(!array_key_exists('app',$rolstat_arr) || !in_array($st_id, $rolstat_arr['app'])): ?>
+    <button name="accept" value="<?php echo $infr['id']; ?>" type="button"  class="central"
+            id="acp<?php echo $infr['id']; ?>" >Одобрить</button>
+<?php if(!array_key_exists('rej',$rolstat_arr) || !in_array($st_id,$rolstat_arr['rej'])): ?>  
+    <span id="ac<?php echo $infr['id']; ?>" class="central" >
+    <button class="central" name="reject" value="<?php echo $infr['id']; ?>" type="button" 
+            id="rjc<?php echo $infr['id']; ?>" >Отклонить
+    </button></span>
+    <div id="rjd<?php echo $infr['id']; ?>">
+        <input name="descr" id="dsc<?php echo $infr['id']; ?>" class="central"
+               placeholder="Ваш комментарий" /> 
+        <button name="rej" value="<?php echo $infr['id']; ?>" type="button" 
+            id="rj<?php echo $infr['id']; ?>" class="central" >Отправить</button>
+
+    </div>
+<?php 
+elseif(array_key_exists('rej',$rolstat_arr) && in_array($st_id, $rolstat_arr['rej'])) : ?>
+    На доработке (<?php echo $rejarr[$st_id]; ?>)
+<?php endif; ?>
+    <?php if(array_key_exists('red',$rolstat_arr) &&($rolstat_arr['red']===$st_id)): ?>
+        <mark style="background-color: red;">Ролик доработан</mark><?php endif; ?>
+    <?php 
+    elseif(array_key_exists('app',$rolstat_arr) || in_array($st_id, $rolstat_arr['app'])):
+        echo 'Одобрен';    endif; ?>
+    <br><a onclick="$('#sat<?php echo $infr['id']; ?>').slideToggle('slow');"
+   href="javascript://" > Текст <?php echo $infr['id']; ?></a>
+    <div id="sat<?php echo $infr['id']; ?>"style="display: none;" >
+            <?php if(!empty($infr['txt'])):
+     echo $infr['txt'];
+            endif; ?>
+    </div>
+    <br>
+    <audio controls style="background-color: <?php echo $rol_color; ?>" class="central">
+        <source src="/audio/rolik_<?php echo $infr['id']; ?>.mp3" type="audio/mpeg">
+        Прослушивание не поддерживается вашим браузером. 
+        <a href="/audio/rolik_<?php echo $infr['id']; ?>.mp3">Скачайте музыку</a>
+    </audio>
+    </div>
+<script type="text/javascript">
+$(document).ready(function(){//
+    $('#rjd<?php echo $infr['id']; ?>').hide();
+    
+    $('#acp<?php echo $infr['id']; ?>').click(function(){
+    var acp=$('#acp<?php echo $infr['id']; ?>').val();
+    $('color<?php echo $infr['id']; ?>').css('background-color','green');
+        $.ajax({
+        type: "POST",
+        url: "/cabinet/rmanch",
+        data: { acp: acp },
+        success: function(html){           
+            var inr=html;
+            $('#res').html(inr);
+        } }); return false; }); 
+        
+        $('#rjc<?php echo $infr['id']; ?>').click(function(){
+            $('#rjd<?php echo $infr['id']; ?>').show(); });
+        
+        $('#rj<?php echo $infr['id']; ?>').click(function(){
+    var rj= $('#rj<?php echo $infr['id']; ?>').val();
+    var des=$('#dsc<?php echo $infr['id']; ?>').val();
+        $.ajax({
+        type: "POST",
+        url: "/cabinet/rmanch",
+        data: { 
+            rj:  rj ,
+            des: des
+        },
+        success: function(html){           
+            var inr=html;
+            $('#ac<?php echo $infr['id']; ?>').html(inr);
+        } }); return false; }); 
+        });
+</script>
+    
+<br>
+<?php endforeach;
+
+endif; ?>
+</form>
+    </div>
     <div  id="d-1" class="hide-div">
         <h4 class="h-div">Счета</h4>
       <?php foreach ($shcarr as $shc): 
@@ -59,41 +179,42 @@ include_once ROOT.'/views/header.php';
         <button class="green-but" name="pd<?php echo $shc['id']; ?>"
                 id="pd<?php echo $shc['id']; ?>" type="button">Оплачен</button>
         </span>
-        <button class="green-but" type="button" name="snd_plan" value="cur" id="snd_plan<?php echo $shc['id'] ?>">
+        <button class="green-but" type="button" name="snd_plan" value="cur" 
+                id="snd_plan<?php echo $shc['id'] ?>">
           Отправить медиаплан трафик-менеджеру</button>
     <span id="pl_res<?php echo $shc['id'] ?>"></span>
     
-    <script type="text/javascript">
-    $(document).ready(function(){
-    $('#snd_plan<?php echo $shc['id'] ?>').click(function(){
-    $.ajax({
-        type: "POST",
-        url: "/cabinet/rmanch/",
-        data: { snd_plan: <?php echo $shc['id']; ?> },
-        beforeSend: function() { 
-            $('#snd_plan<?php echo $shc['id'] ?>').attr('disabled',true);
-            $('#snd_plan<?php echo $shc['id'] ?>').html('Отправляем');
-            
-        },
-        success: function(html){           
-            var inr=html;
-                $('#pl_res<?php echo $shc['id'] ?>').html(inr);
-                $('#snd_plan<?php echo $shc['id'] ?>').html('Отправить медиаплан трафик-менеджеру');
-                $('#snd_plan<?php echo $shc['id'] ?>').attr('disabled',false);
-        }}); return false; }); });
-    </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#snd_plan<?php echo $shc['id'] ?>').click(function(){
+$.ajax({
+    type: "POST",
+    url: "/cabinet/rmanch/",
+    data: { snd_plan: <?php echo $shc['id']; ?> },
+    beforeSend: function() { 
+        $('#snd_plan<?php echo $shc['id'] ?>').attr('disabled',true);
+        $('#snd_plan<?php echo $shc['id'] ?>').html('Отправляем');
+
+    },
+    success: function(html){           
+        var inr=html;
+            $('#pl_res<?php echo $shc['id'] ?>').html(inr);
+            $('#snd_plan<?php echo $shc['id'] ?>').html('Отправить медиаплан трафик-менеджеру');
+            $('#snd_plan<?php echo $shc['id'] ?>').attr('disabled',false);
+    }}); return false; }); });
+</script>
     
-    <script type="text/javascript">
-    $(document).ready(function(){
-    $('#pd<?php echo $shc['id']; ?>').click(function(){
-    $.ajax({
-        type: "POST",
-        url: "/cabinet/rmanch/",
-        data: { pay_sh: <?php echo $shc['id']; ?> },
-        success: function(html){           
-            var inr=html;
-    $('#stat<?php echo $shc['id']; ?>').html(inr); }}); return false; }); });
-    </script> <?php endforeach; ?></div>
+<script type="text/javascript">
+$(document).ready(function(){
+$('#pd<?php echo $shc['id']; ?>').click(function(){
+$.ajax({
+    type: "POST",
+    url: "/cabinet/rmanch/",
+    data: { pay_sh: <?php echo $shc['id']; ?> },
+    success: function(html){           
+        var inr=html;
+$('#stat<?php echo $shc['id']; ?>').html(inr); }}); return false; }); });
+</script> <?php endforeach; ?></div>
 
 <div id="d-2" class="hide-div">
     <h1 class="h-div">Юристы</h1>
