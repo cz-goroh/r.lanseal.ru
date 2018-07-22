@@ -6,7 +6,7 @@
             <a href="/" 
                style="font-size: 2em;  text-decoration: none;
                color: #FB3943; background-color:  #17222E">
-                R.LANSEAL</a>
+                NRS-MEDIA</a>
         
         <span style="text-decoration: none;
                color: #FCFCFC; background-color:  #17222E"><?php echo $_SESSION['login']; ?></span>
@@ -145,7 +145,7 @@ foreach ($rolar as $rolkey=>$rolinf):
     <br> <?php echo Dbq::AtomSel('st_nm', 'sation', 'id', $rolapp_radio); ?>
     <?php endforeach;
         $rol_color='green'; $rolst='Одобрен';       endif;
-  if(array_key_exists('rej',$rolstat_arr)&& in_array($id, $rolstat_arr['rej'])):$rol_color='red';
+  if(array_key_exists('rej',$rolstat_arr)):$rol_color='red';
         foreach ($rolstat_arr['rej'] as $rolds): ?>
     <br>Отклонён станцией
     <?php echo Dbq::AtomSel('st_nm', 'sation', 'id', $rolds); ?>
@@ -165,7 +165,7 @@ foreach ($rolar as $rolkey=>$rolinf):
       $rol_color='blue'; 
     echo 'Отредактирован для станции '.$rolstat_arr['red'];endif;
     ?>
-    <audio controls style="background: <?php echo $rol_color; ?>;">
+    <br><audio controls style="background: <?php echo $rol_color; ?>;">
         <source src="/audio/rolik_<?php echo $rolinf['id']; ?>.mp3" type="audio/mpeg">
         Прослушивание не поддерживается вашим браузером. 
         <a href="/audio/rolik_<?php echo $rolinf['id']; ?>.mp3">Скачайте музыку</a>
