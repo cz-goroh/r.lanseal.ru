@@ -8,7 +8,7 @@
             <a href="/" 
                style="font-size: 2em;  text-decoration: none;
                color: #FB3943; background-color:  #17222E">
-                R.LANSEAL</a>
+                NRS-MEDIA</a>
         
         <span style="text-decoration: none; color: #FCFCFC; background-color:  #17222E">
             <?php echo $_SESSION['login']; ?></span>
@@ -78,6 +78,7 @@
 </form> 
 </div>
 <div id="d-3" class="dc">
+    <h4>Ролики</h4>
 <?php
 //print_r($us_inf);
 //include_once ROOT.'/views/header.php';
@@ -185,7 +186,9 @@ $(document).ready(function(){//
 </script>
     
 <br>
-<?php endforeach; endif; ?>
+<?php endforeach;
+
+endif; ?>
 </form>
 </div>
 
