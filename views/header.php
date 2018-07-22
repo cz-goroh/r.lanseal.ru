@@ -13,6 +13,7 @@
     var cont_5=$('#d-5').html();
     var cont_6=$('#d-6').html();
     var cont_7=$('#d-7').html();
+    var cont_8=$('#d-8').html();
     <?php if(!is_numeric($arg)||empty($arg)): $vkladka=3; else: $vkladka=$arg; endif; ?>
     $('#main-div').html(cont_<?php echo $vkladka; ?>);
     $('#a<?php echo $vkladka; ?>').css('background', '#F0F1F2');
@@ -67,6 +68,13 @@
         $('.a_style').css('color', '#FCFCFC');
         $('#a7').css('color', '#FB3943');
         $('#a7').css('background', '#F0F1F2');
+    });
+    $('#a8').click(function(){
+        $('#main-div').html(cont_8);
+        $('.a_style').css('background', '#17222E');
+        $('.a_style').css('color', '#FCFCFC');
+        $('#a8').css('color', '#FB3943');
+        $('#a8').css('background', '#F0F1F2');
     });
     
 });
@@ -235,9 +243,10 @@ $(document).ready(function(){
 </script>
 <style>
     .divFixHeaderCol{
-        max-height: 80% !important;
+        max-height: 70% !important;
         max-width: 100% !important;
     }
+    body{height: 95%}
 </style>
 </head>
 <body>

@@ -189,6 +189,21 @@ if($_SESSION['rol']==='r_man'){
         
         $reklq="SELECT * FROM rekl";
         $rekl_inf= Dbq::SelDb($reklq);//
+        
+        $rolq="SELECT * FROM rolik";
+            $rolar= Dbq::SelDb($rolq);
+            //print_r($rolar);
+            $rid_arr=array();
+            foreach ($bidar as $bk=>$binfl){
+                $bid_id=$binfl['rolik_id'];
+                $rid_arr[$bid_id]=$binfl['rolik_id'];//массив номеров роликов
+            }
+            foreach ($rolar as $rk=>$rinf){
+                if(in_array($rinf['id'], $rid_arr)){
+                    $rol_id=$rinf['id'];
+                    $rarr[$rol_id]=$rinf;//массив с информацией о роликах
+                }
+            }
     }
     
 //======================рекламодатель===========================================

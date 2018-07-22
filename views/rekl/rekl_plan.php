@@ -46,6 +46,7 @@ endforeach;
                         $plan_per==='28'): echo 'selected';
                 endif; ?> >3 недели</option>
             </select>
+            <?php echo date('d m',$t_month[15]); ?>
             <input  type="hidden" name="zaj_stek" value="1" />
             <?php foreach ($sat_inf as $sskey=> $sstek): 
                 if(in_array($sskey, $post)):
