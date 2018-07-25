@@ -7,12 +7,15 @@
     <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" />
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Neucha&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
     <link href="/views/cab_style.css" rel="stylesheet" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/mask.js" type="text/javascript"></script>
-<link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/css/suggestions.min.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js"></script>
-<script src="/js/reg_incom.js" type="text/javascript"></script>
+    <script src="/js/mask.js" type="text/javascript"></script>
+    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/css/suggestions.min.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js"></script>
+    <script src="/js/reg_incom.js" type="text/javascript"></script>
     <style type="text/css">
         @font-face {
 			font-family: "HelveticaRegular";
@@ -173,6 +176,7 @@
 			font-style: normal;
 			font-weight: normal;
 	}
+        
         body {font-family:arial;
               text-align:center;
               font-family: HelveticaMedium; 
@@ -180,7 +184,7 @@
               /*font-family: 'Comfortaa', cursive;*/
         }
         h1,h2,h3,h4,h5,h6{font-family: HelveticaBold; font-size: 16px;}
-        html{font-family: HelveticaMedium ;  font-size: 14px; background-color: #E9E9E9;}
+        html{font-family: HelveticaMedium ;  font-size: 14px; background-color: #f9f9f9;}
         table{font-family: HelveticaThin; font-size: 14px;}
         th{height: 80px; width: 80px;}
         input{font-family: HelveticaMedium; background-color: #E9E9E9;}
@@ -226,28 +230,69 @@
         input{ font-family: HelveticaMedium;  }
         button{ font-family: HelveticaMedium;  }
         .red-but{
-            background-color: #A6A6A6;
-            color: black;
+            background-color: #0099ff;
+            color: white;
             padding: 5px;
         }
         .pink-but{
-            background-color: #A6A6A6;
-            color: black;
+            background-color: #0099ff;
+            color: white;
             padding: 5px;
         }
-        .grey-block{
-            margin: auto;
-            margin-top: 200px;
-            background-color: #383B42;
+        .grey-block{ 
             
+            margin: auto;
+            margin-top: 20px;
+            background-color: #444444;
+            box-sizing: border-box;
             padding: 10px;
-            color: #DBDBD9;
+            color: #ffffff;
             border-radius: 4px;
-            max-width: 200px;
+            max-width: 350px;
+            max-height: 300px;
         }
         .width-20{width: 90%; height: 25px;margin: 3px;}
         #r_mail{
             width: 95%;
         }
+        #instruction{
+            width: 350px;
+            height: 25px;
+            /*display: inline-block;*/
+            /*padding: 10px;*/
+            /*padding-top: 10px;*/
+            margin: 10px;
+            background-color: #ff6600;
+            color: white;
+            border-radius: 3px;
+            /*vertical-align: central;*/
+            box-sizing: border-box;
+        }
+        #instr-a{
+            color: white; 
+        }
+        #logo{
+            margin-top: 100px;            
+        }
+        #zagolovok{
+            color: #333333;
+            margin-top: 50px;
+            font-size: 4em;
+            font-family: 'Roboto', sans-serif;
+        }
+        #descript{
+           color: #444444;
+            font-size: 2em;
+            font-family: 'Roboto', sans-serif;
+        }
+        #instr-h{
+            font-family: 'Roboto', sans-serif;
+            color: #444444 !important;
+            text-decoration: underline;
+        }
+        #instr-h:link {color: #444444 !important;}
+        #instr-h:visited {color: #444444 !important;}
+        #instr-h:active {color: #444444 !important;}
+        #instr-h:hover {color: #444444 !important;}
     </style>
 </head>

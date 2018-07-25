@@ -40,37 +40,37 @@ $t_month=
 //    5=>$ths_mond+345600,
 //    6=>$ths_mond+432000,
 //    7=>$ths_mond+518400,
-    8=>$ths_mond+604800,
-    9=>$ths_mond+691200,
-    10=>$ths_mond+777600,
-    11=>$ths_mond+864000,
-    12=>$ths_mond+950400,
-    13=>$ths_mond+1036800,
-    14=>$ths_mond+1123200,
-    15=>$ths_mond+1209600,
-    16=>$ths_mond+1296000,
-    17=>$ths_mond+1382400,
-    18=>$ths_mond+1468800,
-    19=>$ths_mond+1555200,
-    20=>$ths_mond+1641600,
-    21=>$ths_mond+1728000,
-    22=>$ths_mond+1814400,
-    23=>$ths_mond+1900800,
-    24=>$ths_mond+1987200,
-    25=>$ths_mond+2073600,
-    26=>$ths_mond+2160000,
-    27=>$ths_mond+2246400,
-    28=>$ths_mond+2332800,
-    29=>$ths_mond+2419200,
-    30=>$ths_mond+2505600,
-    31=>$ths_mond+2592000,
-    32=>$ths_mond+2678400,
-    33=>$ths_mond+2764800,
-    34=>$ths_mond+2851200,
-    35=>$ths_mond+2937600,
-    36=>$ths_mond+3024000,
-    37=>$ths_mond+3110400,
-    38=>$ths_mond+3196800
+    1=>$ths_mond+604800,
+    2=>$ths_mond+691200,
+    3=>$ths_mond+777600,
+    4=>$ths_mond+864000,
+    5=>$ths_mond+950400,
+    6=>$ths_mond+1036800,
+    7=>$ths_mond+1123200,
+    8=>$ths_mond+1209600,
+    9=>$ths_mond+1296000,
+    10=>$ths_mond+1382400,
+    11=>$ths_mond+1468800,
+    12=>$ths_mond+1555200,
+    13=>$ths_mond+1641600,
+    14=>$ths_mond+1728000,
+    15=>$ths_mond+1814400,
+    16=>$ths_mond+1900800,
+    17=>$ths_mond+1987200,
+    18=>$ths_mond+2073600,
+    19=>$ths_mond+2160000,
+    20=>$ths_mond+2246400,
+    21=>$ths_mond+2332800,
+    22=>$ths_mond+2419200,
+    23=>$ths_mond+2505600,
+    24=>$ths_mond+2592000,
+    25=>$ths_mond+2678400,
+    26=>$ths_mond+2764800,
+    27=>$ths_mond+2851200,
+    28=>$ths_mond+2937600,
+    29=>$ths_mond+3024000,
+    30=>$ths_mond+3110400,
+    31=>$ths_mond+3196800
 ];
 $t_hours=[1 =>21600,2 =>25200,3 =>28800,4 =>32400,5 =>36000,6 =>39600,7 =>43200,
 8 =>46800,9 =>50400,10=>54000,11=>57600,12=>61200,13=>64800,14=>48400,15=>72000,
@@ -117,6 +117,7 @@ if($_SESSION['rol']==='adm'){
             $iddlit=$alrolinf['id'];
             $rol_dlit[$iddlit]=$alrolinf['dlit'];//       idролика=>длительность
         }
+        
         $r_maninfq="SELECT * FROM sation";
         $r_maninf= Dbq::SelDb($r_maninfq);// массив станций
         
@@ -212,10 +213,23 @@ if($_SESSION['rol']==='r_man'){
         if(!empty($_POST['plan_sl'])){
             $plan_sl=$post['plan_sl'];
             $plan_per=$post['plan_per'];
+            $begin_per=$post['begin_per'];
+            $end_per=$post['end_per'];
             unset($post['plan_sl']);
             unset($post['plan_per']);
             unset($_POST['plan_sl']);
             unset($_POST['plan_per']);
+        }
+        if(!empty($post['snd_per'])){
+            $snd_per=$post['snd_per'];
+            $begin_per=$post['begin_per']-1;
+            $end_per=$post['end_per']-1;
+            unset($_POST['snd_per']);
+            unset($_POST['begin_per']);
+            unset($_POST['end_per']);
+            unset($post['snd_per']);
+            unset($post['begin_per']);
+            unset($post['end_per']);
         }
         $satusq="SELECT * FROM users WHERE `rol`='r_man'";
         $suar= Dbq::SelDb($satusq);
@@ -242,6 +256,7 @@ if($_SESSION['rol']==='r_man'){
                 $t_month= array_slice($t_month, 7);
             }
         }
+        if($_SERVER['HTTP_HOST']==='r.lanseal.ru'){
         
         if(isset($_POST['tags'])){                              //поиск по тегам
             $p= Secure::PostText($_POST)['tag'];
@@ -252,6 +267,19 @@ if($_SESSION['rol']==='r_man'){
         }else{
         $r_maninfq="SELECT * FROM sation";
         $r_maninf= Dbq::SelDb($r_maninfq);// массив станций
+        }
+        } else {
+            if(isset($_POST['tags'])){                              //поиск по тегам
+            $p= Secure::PostText($_POST)['tag'];
+            $r_maninfq="SELECT * FROM sation WHERE (`aud_desc` LIKE '%$p%' "
+                    . "OR `zone` LIKE '%$p%' OR `region` LIKE '%$p%' "
+                    . "OR `city` LIKE '%$p%') AND (`status`!='test' AND `status`!='del')";
+            $r_maninf= Dbq::SelDb($r_maninfq);
+        }else{
+        $r_maninfq="SELECT * FROM sation WHERE `status`!='test' AND `status`!='del'";
+        $r_maninf= Dbq::SelDb($r_maninfq);// массив станций
+        }
+//            `status`!='test' AND `status`!='del'
         }
         foreach ($r_maninf as $sationinf){
             if($arg!='plan'){

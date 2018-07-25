@@ -8,7 +8,7 @@ class User{
       $check_login= Dbq::AtomSel('pass', 'users', 'login', $mail);
       if(!empty($check_login)){
           $new_pass=uniqid();
-          $mes='Ваш новый пароль от сайта lanseal.ru '.$new_pass ;
+          $mes='Ваш новый пароль от сайта NRS-MEDIA.ru '.$new_pass ;
           $htmlBody='<p>Ваш новый пароль от сайта lanseal.ru:</p>'
                   .'<p>'.$new_pass.'</p>';
           $name= Dbq::AtomSel('name', 'users', 'login', $mail);
@@ -22,17 +22,17 @@ class User{
    public static function sendRegMail($mails){   //подтверждение почты
        $reg_hash= uniqid();
        $_SESSION['reg_hash']=$reg_hash;  
-       $htmlBody='<h1>Регистрация на lanseal.ru</h1>'
+       $htmlBody='<h1>Регистрация на NRS-MEDIA.ru</h1>'
                . '<p>Вы получили это сообщение для подтверждения регистрации на '
                . 'сайте lanseal.ru, введите этот код в соответствующее поле:<br>'
                .$reg_hash.'</p>'
                . '<p> Если Вы не запрашивали его, просто не реагируйте </p>' ;
-       $mes=    'Регистрация на lanseal.ruВы получили это сообщение для '
+       $mes=    'Регистрация на NRS-MEDIA.ruВы получили это сообщение для '
                .'подтверждения регистрации на '
-               .'сайте lanseal.ru, введите этот код в соответствующее поле: '
+               .'сайте NRS-MEDIA.ru, введите этот код в соответствующее поле: '
                .$reg_hash
                . ' Если Вы не запрашивали его, просто не реагируйте';
-       $subj =   'Регистрация на lanseal.ru';
+       $subj =   'Регистрация на NRS-MEDIA.ru';
        Secure::mailYand($mails, $mes, $htmlBody, '', $subj);  
        
    }

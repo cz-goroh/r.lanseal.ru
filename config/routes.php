@@ -1,6 +1,6 @@
 <?php
 return array (
-              'basecontroller'=>'baseaction/test' ,
+              'basecontroller'=>'baseaction/test/' ,
     
               'signup'=>'registration/logout/inplan',
     
@@ -8,6 +8,7 @@ return array (
             . 'loych/dnld/shcet/admincab/adminch',
               
               'out' =>'file',
-              'test'=>'test'
+              'test'=>'test',
+              'blog'=>'instruction'
     
 );

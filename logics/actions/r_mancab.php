@@ -173,8 +173,42 @@ endif; ?>
            target="_blank"a>Скачать</a>
         <?php $file_way=ROOT.'/doc/plat_'.$shc['id'].'.pdf';
         if(file_exists($file_way)):  ?>
-        <a class="a-media" href="/cabinet/dnld/plat_<?php echo $shc['id']; ?>" 
-           target="_blank"a>Скачать платёжку</a>
+        
+        <!--href="/cabinet/dnld/plat_<?php //echo $shc['id']; ?>"--> 
+        
+        <div  class="pdf_block"></div>
+        
+      
+    <script>
+        $(document).ready(function(){
+            $('#plt_dnld<?php echo $shc['id']; ?>').click(function(){
+                $('.pdf_block').show();
+                $('#plt_dnld<?php echo $shc['id']; ?>').hide();
+//                $('.pdf_block').css({
+//                            "top" : event.pageY,
+//                            "left" : event.pageX,
+//                            "z-index" :998
+//                        });
+                $('#plt_cls<?php echo $shc['id']; ?>').show();
+//                $('.pdf_cls').css({
+//                            "top" : event.pageY,
+//                            "left" : event.pageX-600,
+//                            "z-index" :999
+//                        });
+                PDFObject.embed("/doc/plat_<?php echo $shc['id']; ?>.pdf", ".pdf_block"); 
+            });
+            $('#plt_cls<?php echo $shc['id']; ?>').click(function(){
+                $('.pdf_block').hide();
+                $('#plt_cls<?php echo $shc['id']; ?>').hide();
+                $('#plt_dnld<?php echo $shc['id']; ?>').show();
+            });
+        });
+        PDFObject.embed("/doc/plat_<?php echo $shc['id']; ?>.pdf", ".pdf_block"); 
+    </script>
+    <a class="a-media" href="#"
+            id="plt_dnld<?php echo $shc['id']; ?>">Скачать платёжку</a>
+            <a class="plt_cls plt_dnld a-media" id="plt_cls<?php echo $shc['id']; ?>"
+               href="#">Закрыть платёжку</a>
         <?php endif; ?>
         <button class="green-but" name="pd<?php echo $shc['id']; ?>"
                 id="pd<?php echo $shc['id']; ?>" type="button">Оплачен</button>
@@ -250,6 +284,9 @@ $('#stat<?php echo $shc['id']; ?>').html(inr); }}); return false; }); });
 </div>
     
 <div id="d-7" class="hide-div" >
+    <a target="_blank" href="https://drive.google.com/open?id=17s5NngHuRHA3g6v6GGxCGDc8O3y-FbbEpXBEhvCOdNo">
+        Инструкция по эксплуатации
+    </a>
     <h4 class="h-div">Смена пароля</h4>
     Введите текущий пароль
     <input  class="inp"  name="curr_pass" id="curr_pass" type="password" class="left-30"/>
@@ -363,7 +400,7 @@ $('#stat<?php echo $shc['id']; ?>').html(inr); }}); return false; }); });
      echo $r_maninf[0]['dog_nm'];
     endif;  ?>"
            placeholder="Наименование договора" />
-    <input type="file" name="oferta" />
+    <input type="file" name="oferta" accept="application/pdf"/>
     <!--<button name="ofer" value="1" type="submit" >Загрузить</button>-->
     <br><?php if(file_exists(ROOT.'/doc/oferta'.$id.'.pdf')): ?>
     <a href="/out/dnld/oferta<?php echo $id; ?>" >оферта</a>

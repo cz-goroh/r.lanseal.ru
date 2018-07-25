@@ -1,7 +1,7 @@
 <?php
 //$post= Secure::PostText($_POST);
 $st_id=$id;
-if(isset($_POST['acp'])){
+if(isset($_POST['acp'])){//функция юриста одобрить
     $id_rol= Secure::PostText($_POST)['acp'];
     $statser= Dbq::AtomSel('status', 'rolik', 'id', $id_rol);
     $statarr= unserialize($statser);
@@ -23,7 +23,7 @@ if(isset($_POST['acp'])){
     echo 'Одобрен';
     exit();
 }
-if(isset($_POST['rj'])):
+if(isset($_POST['rj']))://функция юриста отклонить
 //    $post= Secure::PostText($_POST);
     $rj=$post['rj'];
     $statser= Dbq::AtomSel('status', 'rolik', 'id', $rj);
@@ -143,9 +143,9 @@ if(isset($_POST['new_loy'])){
         $us_id= Dbq::AtomSel('id', 'users', 'login', $log);
         $iq="INSERT INTO loy (`radio_id`,`us_id`) VALUES ($id,$us_id)";
         Dbq::InsDb($iq);
-        $mes='Вы зарегистрированы на сайте lanseal.ru в качестве юриста,'
+        $mes='Вы зарегистрированы на сайте NRS-MEDIA.ru в качестве юриста,'
                 . 'ваш логин '.$post['login'].',  пароль '.$post['pass'];
-        $htmlBody='Вы зарегистрированы на сайте lanseal.ru в качестве юриста,'
+        $htmlBody='Вы зарегистрированы на сайте NRS-MEDIA.ru в качестве юриста,'
                 . 'ваш логин '.$post['login'].',  пароль '.$post['pass'];
         $subj='Регистрация на lanseal.ru';
         Secure::mailYand($post['login'], $mes, $htmlBody, $post['nm'], $subj);
@@ -180,7 +180,7 @@ if(isset($_POST['retime'])){//перенос заявки в другой про
             . 'кабинет на сайте ';
     $htmlBody="<p>Ваша заявка №$bid_id перемещена с ". date('Hч d.m',$fr_t). 'на '. 
             date('H ч, d.m',$to_timest).', '
-            . '<a href="http://r.lanseal.ru/signup/inplan/plan_'.$id.'">'
+            . '<a href="http://NRS-MEDIA.ru/signup/inplan/plan_'.$id.'">'
             . 'для согласования перейдите в личный </a>'
             . 'кабинет на сайте </p>';
     $name= Dbq::AtomSel('fio', 'rekl', 'id', $rid);
@@ -218,7 +218,7 @@ if(isset($_POST['media'])){//принять / отклонить заявку
                 $name=Dbq::AtomSel('fio', 'rekl','id' , $id);
                 $mes="Ваша заявка на радио $radio_nm отклонена, для изменения"
                         . "времени заявки "
-                        . '<a href="http://r.lanseal.ru/signup/inplan/plan_'.$id.'">'
+                        . '<a href="http://NRS-MEDIA.ru/signup/inplan/plan_'.$id.'" >'
                         . "зайдите в личный кабинет</a>"; 
                 $htmlBody="<p>Ваша заявка на радио $radio_nm отклонена, для изменения"
                         . " времени заявки зайдите в личный кабинет</p>";

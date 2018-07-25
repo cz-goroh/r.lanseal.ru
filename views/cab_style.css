@@ -455,6 +455,25 @@ img.wp-smiley,
     background-color: #F3C0C0;
     display: none;
 }
+.pdf_block{
+    position: absolute;
+    background-color: #F3C0C0;
+    display: none;
+    width: 600px;
+    height: 800px;
+}
+.pdf_cls{
+    position: absolute;
+    background-color: #525659;
+    display: none;
+    color: wheat;
+}
+.plt_cls{
+    display: none;
+}
+.pdf_cls:hover{
+    
+}
 .quest{
     background-color: orchid;
     border-radius: 5px;

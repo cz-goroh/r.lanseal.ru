@@ -79,11 +79,11 @@ if(isset($_POST['send_radioinf'])){
         $_SESSION['id']= Dbq::AtomSel('id', 'sation', 'us_id', $_SESSION['usid']);
         $qreg="UPDATE users SET `us_hash`='$ushash' WHERE `login`='$mail'";
         Dbq::InsDb($qreg);
-        $mes='Ваши регистрационные данные на сайте lanseal.ru: Логин '.$mail.','
+        $mes='Ваши регистрационные данные на сайте NRS-MEDIA.ru: Логин '.$mail.','
         . 'Пароль '.$pass;
-        $htmlBody='Ваши регистрационные данные на сайте lanseal.ru:<br> Логин '.$mail.','
+        $htmlBody='Ваши регистрационные данные на сайте NRS-MEDIA.ru:<br> Логин '.$mail.','
         . '<br>Пароль '.$pass;
-        $subj='Регистрация на lanseal.ru';
+        $subj='Регистрация на NRS-MEDIA.ru';
         Secure::mailYand($mail, $mes, $htmlBody, $name, $subj);
         Rman::NRTab($_SESSION['id']);//создаём записи структуры
     }
@@ -131,11 +131,11 @@ if(isset($_POST['send_reklinf'])){
         $_SESSION['id']= Dbq::AtomSel('id', 'rekl', 'us_id', $_SESSION['usid']);
         $qreg="UPDATE users SET `us_hash`='$ushash' WHERE `login`='$mail'";
             Dbq::InsDb($qreg);
-            $mes='Ваши регистрационные данные на сайте lanseal.ru: Логин '.$mail.','
+            $mes='Ваши регистрационные данные на сайте NRS-MEDIA.ru: Логин '.$mail.','
         . 'Пароль '.$pass;
-        $htmlBody='Ваши регистрационные данные на сайте lanseal.ru:<br> Логин '.$mail.','
+        $htmlBody='Ваши регистрационные данные на сайте NRS-MEDIA.ru:<br> Логин '.$mail.','
         . '<br>Пароль '.$pass;
-        $subj='Регистрация на lanseal.ru';
+        $subj='Регистрация на NRS-MEDIA.ru';
         Secure::mailYand($mail, $mes, $htmlBody, $name, $subj);
     }
     header('Location: /signup/registration/result');

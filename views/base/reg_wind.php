@@ -15,12 +15,19 @@
 <!--форма регистрации-->
 <!--<link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Neucha&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">-->
 <?php if(empty($_SESSION['ush'])): ?>
+<!--<div style="font-size: 5em">Работы на сервере</div>--> 
+<div id="logo"><img src="/views/img/nrs-logo.png"></div>
+
+<div id="zagolovok"> Национальная Радио Сеть</div>
+<div id="descript">Онлайн сервис по планированию и размещению рекламы на любой
+    радиостанции России. Прочтите<a id="instr-h" href="/blog/instruction"> иструкцию.</a></div>
 <div class="grey-block"   id="reg_wind">
     <div id="first">
         <h2>Войдите или зарегистрируйтесь</h2><br><br><br><br><br>
 <button id="let-inc" type="button" class="pink-but width-20">Войти</button><br>
 <button id="let-reg" type="button" class="pink-but width-20">Зарегистрироваться</button>
     </div>
+    
 <div  id="incom">
     <a href="/" style="text-decoration: none;"><img src="/views/img/blue_st.png" /></a>
     <h2>Вход</h2>
@@ -138,6 +145,10 @@
     </div>
 </form>
 </div>
+<button type="button" id="instruction"  >
+    <a href="/blog/instruction" id="instr-a" target="_blank" >
+        Инструкция по эксплуатации
+</a></button>
 <script type="text/javascript">
 $(".city").suggestions({
     token: "2ae95ed1cef9323717fbc91c75aa0904c7a4cdeb",

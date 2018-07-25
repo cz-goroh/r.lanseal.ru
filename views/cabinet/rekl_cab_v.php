@@ -45,6 +45,9 @@
                value="yes" /> </p>
     <button name="settings" type="submit" value="1">Обновить</button>
     </form>
+    <a target="_blank" href="https://drive.google.com/open?id=1pG_vgXSNzWh1I9JPcu5FALw74Bxvs6U0DiCt5_BprhY">
+        Инструкция по эксплуатации
+    </a>
 </div>
 <div id="d-6" class="dc"> 
 
@@ -100,7 +103,7 @@
         <form method="post" action="/cabinet/reclch/" enctype="multipart/form-data" >
             
             Загрузить платёжный документ(pdf)
-            <input type="file" name="plat_<?php echo $shc['id']; ?>"  />
+            <input type="file" name="plat_<?php echo $shc['id']; ?>" accept="application/pdf" />
             <button name="plat" value="<?php echo $shc['id']; ?>" type="submit" class="green-but">
             Отправить платёжку                                         </button>
         </form>  <?php
@@ -120,6 +123,8 @@
 <div id="d-2" class="dc">
     <!--<div class="spoiler-head"></div>-->
     <h4 class="div-h">Ролики</h4>
+    <?php if(!empty($_SESSION['rolik_err'])):
+        echo 'С загрузкой Вашего ролика что-то пошло не так'; endif; ?>
 <form method="post" action="/cabinet/reclch/" enctype="multipart/form-data" >
 <?php
 foreach ($rolar as $rolkey=>$rolinf): 
@@ -206,14 +211,25 @@ foreach ($rolar as $rolkey=>$rolinf):
 <!--<span id="testt"></span>-->
 </form>
     <h4 class="div-h">Загрузка рекламного ролика</h4>
-<form enctype="multipart/form-data" action="/cabinet/reclch" method="post">
+<form enctype="multipart/form-data" action="/cabinet/reclch" method="post" >
     <br><input class="inp" type="text"  name="rolik_nm" placeholder="введите имя ролика" required />
     <!--<br><input class="inp" name="dlit" type="number" placeholder="введите длительность, сек" required />-->
     
     <br><textarea class="inp" name="ntxt" required >Вставьте текст ролика</textarea>
-    <br><input class="inp" type="hidden" name="MAX_FILE_SIZE" value="300000000" required />
-    <br> <input  type="file" name="rolik" />(не более 30МБ) 
+    <br><input class="inp" type="hidden" name="MAX_FILE_SIZE" value="30000000" required />
+    <br> <input  id="rolik_upl" type="file" name="rolik" accept="audio/mp3"/>(не более 30МБ) 
+    <span id="file_req"></span>
     <br><button class="green-but" name="rolik_upl" type="submit" value="rolik" >Загрузить</button>
+    
+    <script type="text/javascript">
+    $('#rolik_upl').on('change', function(){
+        var files;
+	files = this.files;
+        $('#file_req').html('А вот и файл');
+    });
+    
+    </script>
+
 </form></div>
 <div id="d-3" class="dc">
     <h1 class="div-h">Радиостанции</h1>
@@ -242,7 +258,7 @@ foreach ($sat_inf as $satk=>$satc):
         <div class="st-list"><input name="zaj_<?php echo $satk; ?>" type="checkbox" value="<?php echo $satk; ?>"/>
 <a onclick="$('#sat<?php echo $satk; ?>').slideToggle('slow');"
    href="javascript://" class="media-slider">
-              <?php echo $satc['st_nm']; ?> </a> 
+              <?php echo $satc['st_nm']; ?> <?php echo $satc['city']; ?></a> 
             <a href="/cabinet/clientrcab/media_<?php echo $satk; ?>" class="a-media"
           >Открыть Медиаплан</a>
        <a href="/cabinet/dnld/reklmedia_<?php echo $satk; ?>" 

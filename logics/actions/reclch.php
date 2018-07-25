@@ -108,6 +108,7 @@ if(isset($_POST['rolik_upl'])){
     $stat_ser= serialize($stat_arr);
     $descar=array();
     $descr= serialize($descar);
+    if(!empty($_FILES) && $_FILES['rolik']['size']>0 && $_FILES['rolik']['error']==0){
     $rolq="INSERT INTO rolik "
             . "(`name`,`t_ins`,`size`,`rekl_id`,`status`,`descr`,`txt`) "
             . "VALUES ('$name',$t,$size,$id,'$stat_ser','$descr','$txt')";
@@ -115,6 +116,7 @@ if(isset($_POST['rolik_upl'])){
     $lastq="SELECT HIGH_PRIORITY max(id) FROM `rolik`";
     $rolik_id= Dbq::SelDb($lastq)[0]["max(id)"];// id текущей позиции
     $way=ROOT.'/audio/rolik'.'_'.$rolik_id.'.mp3';
+    
     $m=move_uploaded_file($_FILES['rolik']['tmp_name'], $way);
     error_reporting (E_ERROR);
     $info = getMP3data($way);
@@ -123,6 +125,9 @@ if(isset($_POST['rolik_upl'])){
     $dlit=$info['diration'];
     $updlq="UPDATE rolik SET `dlit`=$dlit WHERE `id`=$rolik_id";
     Dbq::InsDb($updlq);
+    } else {
+        $_SESSION['rolik_err']=1;
+    }
 //    echo $rolq;
 //    print_r($post);
 ////    var_dump($_FILES);

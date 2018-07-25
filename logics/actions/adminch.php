@@ -1,5 +1,17 @@
 <?php
+if(isset($_POST['sation_del'])){
+    $idst=$post['sation_del'];
+    $delstq="UPDATE sation SET `status`='del' WHERE `id`=$idst";
+    Dbq::InsDb($delstq);
+    header('Location: /cabinet/admincab/');
+}
+if(isset($_POST['sation_ree'])){
+    $idst=$post['sation_ree'];
+    $delstq="UPDATE sation SET `status`='' WHERE `id`=$idst";
+    Dbq::InsDb($delstq);
 
+    header('Location: /cabinet/admincab/');
+}
 if(isset($_POST['change_pass'])){
     $hashpass= Dbq::AtomSel('pass', 'users', 'id', $usid);
     if($post['new_pass']===$post['new_reppass']){

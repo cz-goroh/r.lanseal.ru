@@ -166,10 +166,21 @@ foreach ($rolar as $rolkey=>$rolinf):
     endif;
     ?>
     <p>
-    <mark><?php echo $radio['id']; ?></mark>
+    <mark><?php echo $radio['id']; echo $radio['status']; ?></mark>
     <?php echo $rekvr['fname']; ?>
     ИНН <?php echo $rekvr['inn']; ?>
     <a href="/cabinet/admincab/rman_cab_<?php echo $radio['id']; ?>">Обзор</a>
+    <form action="/cabinet/adminch/" method="post" style="display: inline;" >
+        
+    <?php if($radio['status']!=='del'): ?>
+        <button name="sation_del" value="<?php echo $radio['id']; ?>" 
+                type="submit">Удалить</button> 
+    <?php else: ?>
+        <button name="sation_ree" value="<?php echo $radio['id']; ?>" 
+                type="submit">Восстановить</button> 
+    <?php endif; ?>
+    </form>
+    
     </p>
     <?php endforeach; ?>
     </div>

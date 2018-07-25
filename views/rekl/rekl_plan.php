@@ -45,8 +45,10 @@ endforeach;
                 <?php if(isset($plan_sl)&&!empty($plan_sl)&&
                         $plan_per==='28'): echo 'selected';
                 endif; ?> >3 недели</option>
+                <option value="per">Другое</option>
             </select>
-            <?php echo date('d m',$t_month[15]); ?>
+
+            <?php // echo date('d m',$t_month[15]); ?>
             <input  type="hidden" name="zaj_stek" value="1" />
             <?php foreach ($sat_inf as $sskey=> $sstek): 
                 if(in_array($sskey, $post)):
@@ -54,9 +56,44 @@ endforeach;
             <input type="hidden" name="zaj_<?php echo $sskey; ?>" 
                    value="<?php echo $sskey; ?>" />
             <?php endif; endforeach; ?>
-            <button class="green-but" name="plan_sl" value="1" type="submit" >
+            
+            <button class="green-but" name="plan_sl" value="1" type="submit" id="snd_sl" >
             Применить</button>
-        </form>
+        </form>  
+    <form action="#" method="post" id="per_form" style="display: inline-block;" >
+        <select   id="begin_per" name="begin_per">
+            <?php foreach ($t_month as $tmk=>$tms): ?>
+            <option value="<?php echo $tmk; ?>"><?php echo date('d m',$tms); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <select   id="end_per" name="end_per">
+            <?php foreach ($t_month as $tmk=>$tms): ?>
+            <option value="<?php echo $tmk; ?>"><?php echo date('d m',$tms); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="green-but" name="snd_per" value="1" type="submit" id="snd_per" >
+            Применить</button>
+    </form>
+<script>
+    $(document).ready(function(){
+        $('#per_form').hide();
+        $('#plan_per').change(function(){
+            var sel=$('#plan_per :selected').val();
+            if(sel==='per'){
+                $('#per_form').show();
+                $('#begin_per').show();
+                $('#end_per').show();
+                $('#snd_sl').hide();
+                $('#snd_per').show();
+            }
+            if(sel!=='per'){
+                $('#begin_per').hide();
+                $('#end_per').hide();
+                $('#snd_sl').show();
+                $('#snd_per').show();
+                $('#snd_per').hide();
+            } }); });    
+</script>
     <!--</div>-->
     <form style="display: inline;" id="forma"
         action="/cabinet/reclch/" method="post" >
@@ -86,8 +123,9 @@ endforeach;
                     var uri='/cabinet/dnld/reklmedia_<?php echo $mediakey; ?>_' + per;
                     var vl=$('#plan_per :selected').html();
                     var html='Скачать медиаплан за ' + vl;
+                    if(per!=='per'){
                     $("#rekl_media<?php echo $mediakey; ?>").html(html);
-                    $("#rekl_media<?php echo $mediakey; ?>").attr("href", uri);
+                    $("#rekl_media<?php echo $mediakey; ?>").attr("href", uri);}
                 });
                 $('#no_ch<?php echo $mediakey; ?>').click(function(){
                     $(".ch<?php echo $mediakey; ?>").removeAttr('checked');
@@ -134,6 +172,13 @@ endforeach;
 if(isset($plan_sl)&&!empty($plan_sl)):
     $t_month= array_slice($t_month, 0, $plan_per, TRUE);
 endif;
+if(isset($snd_per)&&!empty($snd_per)):
+    $lnt=$end_per-$begin_per+1;
+    if($lnt===0): $lnt=1; endif;
+    $t_month= array_slice($t_month, $begin_per, $lnt, TRUE);
+//    print_r($t_month);
+endif;
+
 foreach ($t_month as $mon_k=>$mon_t): ?>
         <th><div class="in_tab">
             <?php echo $rus_week[date('N', $mon_t)].'<br>'.date('d m',$mon_t); ?>
@@ -363,8 +408,36 @@ if($bid['status']==='compl'): ?>
         
     </tr><?php endforeach; ?>        
 </tbody></table>
+      
+          <!--Предпросмотр оферты-->
+      <div  class="pdf_block"></div>
+      <a class="pdf_cls" href="#">Закрыть</a>
+    <script>
+        $(document).ready(function(){
+            $('#oferta').click(function(){
+                $('.pdf_block').show();
+                $('.pdf_block').css({
+                            "top" : event.pageY-800,
+                            "left" : event.pageX-400,
+                            "z-index" :998
+                        });
+                $('.pdf_cls').show();
+                $('.pdf_cls').css({
+                            "top" : event.pageY-800,
+                            "left" : event.pageX-400,
+                            "z-index" :999
+                        });
+                PDFObject.embed("/doc/oferta<?php echo $mediakey; ?>.pdf", ".pdf_block");
+            });
+            $('.pdf_cls').click(function(){
+                $('.pdf_block').hide();
+                $('.pdf_cls').hide();
+            });
+        });
+        PDFObject.embed("/doc/plat_<?php echo $mediakey; ?>.pdf", ".pdf_block");
+    </script>
         Нажимая "Отправить" Вы соглашаетесь с условиями
-        <a href="/cabinet/dnld/oferta_<?php echo $mediakey; ?>">договора-оферты</a> радиостанции
+        <a id="oferta" href="#" >договора-оферты</a> радиостанции
         <?php echo $st_nm; ?>
         
         <br>
